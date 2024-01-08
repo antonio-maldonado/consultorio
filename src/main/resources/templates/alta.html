@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dar de alta</title>
+</head>
+<body>
+	<h1>Dar de alta</h1>
+	<form action="/alta" method="POST">
+		<label>Tu nombre:</label>
+		<input type="text" name="nombrePaciente">
+		<br>
+		<label>Consultorio: </label>
+		<select  name="consultorio">
+			<option th:each="consultorio : ${consultorios}" th:value="${consultorio.numeroConsultorio}"
+					th:text="${consultorio.numeroConsultorio}"
+			></option>
+		</select>
+		<br>
+		<label>Doctor: </label>
+		<select  name="doctor">
+			<option th:each="doctor : ${doctores}" th:value="${doctor.id}"
+					th:text="${doctor.nombre}"
+			></option>
+		</select>
+		<br>
+		<label>Hora de la consulta</label>
+		<input type="datetime-local" name="horarioConsulta"/>
+		<br>
+		<button type="submit">Enviar</button>
+	</form>
+</body> 
+</html>
