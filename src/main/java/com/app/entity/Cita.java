@@ -4,6 +4,8 @@ package com.app.entity;
 
 import java.time.LocalDateTime;
 
+import com.app.validation.FechaValida;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +41,8 @@ public class Cita {
     @JoinColumn(name = "idDoctor")
     private Doctor doctor;
 
+    //@FechaValida(message = "La fecha debe ser al menos dos horas en adelante")
+    //@Null(message = "La edad debe ser un número positivo")
     private LocalDateTime horarioConsulta;
     
     @Column(name = "nombre", nullable = false, length = 100, unique = false)

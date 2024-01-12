@@ -1,31 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Dar de alta</title>
+<title th:text="${titulo}"></title>
 </head>
 <body>
-	<h1>Dar de alta</h1>
-	<form action="/alta" method="POST">
+	<h1 th:text="${titulo}"></h1>
+
+	<a th:href="${'/'}">Inicio</a>
+	<br><br>
+	<a th:href="${'/consultar'}">Consultar citas</a>
+	<br><br>
+
+	<form th:if="${cita}" th:object="${cita}" th:action="@{/alta}" method="post">
 		<label>Tu nombre:</label>
 		<input type="text" name="nombrePaciente">
+
 		<br>
+		
 		<label>Consultorio: </label>
-		<select  name="consultorio">
+		
+		<select name="consultorio" th:if="${cita}">
+			<option th:each="consultorio : ${consultorios}" th:value="${consultorio.numeroConsultorio}"
+					th:text="${consultorio.numeroConsultorio}" selected
+					th:if="${cita.consultorio.numeroConsultorio.equals(consultorio.numeroConsultorio)}"
+			></option>
+			<option th:each="consultorio : ${consultorios}" th:value="${consultorio.numeroConsultorio}"
+					th:text="${consultorio.numeroConsultorio}" 
+					th:if="${not cita.consultorio.numeroConsultorio.equals(consultorio.numeroConsultorio)}"
+			></option>
+		</select>
+		
+		<select th:if="${#lists.isEmpty(cita)}" name="consultorio"  >
 			<option th:each="consultorio : ${consultorios}" th:value="${consultorio.numeroConsultorio}"
 					th:text="${consultorio.numeroConsultorio}"
 			></option>
 		</select>
+		
 		<br>
+		
 		<label>Doctor: </label>
-		<select  name="doctor">
+		<select name="doctor">
 			<option th:each="doctor : ${doctores}" th:value="${doctor.id}"
 					th:text="${doctor.nombre}"
 			></option>
 		</select>
+		<small th:if="${doctor}" th:text="${doctor}"></small>
+
 		<br>
+		
 		<label>Hora de la consulta</label>
-		<input type="datetime-local" name="horarioConsulta"/>
+		<input type="datetime-local"  name="horarioConsulta" step="3600" required/>
+		<small th:if="${horarioConsulta}" th:text="${horarioConsulta}"></small>
+		<br>
+		<button type="submit">Enviar</button>
+	</form>
+	
+	<form th:if="${ #lists.isEmpty(cita)}"  th:action="@{/alta}" method="post">
+		<label>Tu nombre:</label>
+		<input type="text" name="nombrePaciente" value="aaa">
+		<br>
+		
+		<label>Consultorio: </label>
+		
+		<select name="consultorio" th:if="${cita}">
+			<option th:each="consultorio : ${consultorios}" th:value="${consultorio.numeroConsultorio}"
+					th:text="${consultorio.numeroConsultorio}" selected
+					th:if="${cita.consultorio.numeroConsultorio.equals(consultorio.numeroConsultorio)}"
+			></option>
+			<option th:each="consultorio : ${consultorios}" th:value="${consultorio.numeroConsultorio}"
+					th:text="${consultorio.numeroConsultorio}" 
+					th:if="${not cita.consultorio.numeroConsultorio.equals(consultorio.numeroConsultorio)}"
+			></option>
+		</select>
+		
+		<select th:if="${#lists.isEmpty(cita)}" name="consultorio"  >
+			<option th:each="consultorio : ${consultorios}" th:value="${consultorio.numeroConsultorio}"
+					th:text="${consultorio.numeroConsultorio}"
+			></option>
+		</select>
+		
+		<br>
+		
+		<label>Doctor: </label>
+		<select name="doctor">
+			<option th:each="doctor : ${doctores}" th:value="${doctor.id}"
+					th:text="${doctor.nombre}"
+			></option>
+		</select>
+		
+		<br>
+		
+		<label>Hora de la consulta</label>
+		<input type="datetime-local"  name="horarioConsulta" 
+		step="3600" value="2018-06-12T19:00" required/>
+		<small th:if="${horarioConsulta}" th:text="${horarioConsulta}"></small>
 		<br>
 		<button type="submit">Enviar</button>
 	</form>

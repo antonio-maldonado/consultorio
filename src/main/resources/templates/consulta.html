@@ -6,14 +6,46 @@
 </head>
 <body>
 	<h1 >Consulta de citas</h1>
+	
+	<a th:href="${'/'}">Inicio</a>
+	<br><br>
+	<a th:href="${'/alta'}">Dar de alta</a>
+	<br><br>
+	<form action="/filtros-consulta" method="POST">
+		<label>Doctor: </label>
+		<select name="doctor">
+			<option th:each="doctor : ${doctores}" th:value="${doctor.id}"
+					th:text="${doctor.nombre}"
+			></option>
+		</select>
+		<br><br>
+		
+		<label>Consultorio: </label>
+		<select name="consultorio">
+			<option th:each="consultorio : ${consultorios}" th:value="${consultorio.numeroConsultorio}"
+					th:text="${consultorio.numeroConsultorio}"
+			></option>
+		</select>
+		
+		<br><br>
+		
+		<label>Hora de la consulta</label>
+		<input type="date" name="horarioConsulta" required/>
+		
+		
+		<button type="submit">Buscar</button>
+	</form>
+	
+	<br><br>
+	
 	<table class="">
 		<thead class="">
-	
 			<tr>
 				<td>Nombre</td>
 				<td>Doctor</td>
 				<td># Consultorio</td>
 				<td>Fecha consulta</td>
+				<td>Acciones</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,6 +54,11 @@
 				<td th:text="${cita.doctor.nombre}"></td>
 				<td th:text="${cita.consultorio.numeroConsultorio}"></td>
 				<td th:text="${cita.horarioConsulta}"></td>
+				<td>
+					<a th:href="${'/editarConsulta/'+cita.id}">Editar</a>
+					<a th:href="${'/cancelarConsulta/'+cita.id}">Eliminar</a>
+					
+				</td>
 			</tr>
 			
 		</tbody>
